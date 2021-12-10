@@ -14,7 +14,7 @@ Home
             <div class="row">
                <div class="col-lg-6 col-md-6 home-buttons">
                     <p>if you are new here</p>
-                    <a href="/register"><button type="button" class="special-button special">Register Now</button></a>
+                    <a href="{{route('register')}}"><button type="button" class="special-button special">Register Now</button></a>
                 </div>
                 <div class="col-lg-6 col-md-6 home-buttons">
                     <p>already a user</p>

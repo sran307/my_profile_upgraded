@@ -17,7 +17,7 @@ $(document).ready(function(){
 
     //-----------mutual fund script-----------//
 
-    function fetch_mutual_fund(){
+    /*function fetch_mutual_fund(){
         $.ajax({
             type: "get",
             url: "/fetch_mutual_fund",
@@ -782,5 +782,7 @@ $(document).ready(function(){
                 $("#adder").removeClass("d-block");
             }
         });
-    });
+    });*/
+    //for span class
+    $("span.alert").delay(5000).slideUp(300);
 });

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//view page routes
 Route::view("/","layouts.layout");
 Route::view("/","frontend.home");
+Route::view("register","frontend.register")->name("register");
+Route::view("login", "frontend.login")->name("login");
+
+//resource controller for registration 
+Route::post("register_form", "RegisterController@store")->name("register_form");
