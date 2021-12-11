@@ -27,19 +27,29 @@
     <!--header section-->
     <header id="header">
         <div class="container">
-            <img src="{{asset('images/avatar5.png')}}" class="rounded-circle" id="profile-image" alt="profile-image">
+            @if(!session("login_id"))
+                <img src="{{asset('images/avatar5.png')}}" class="rounded-circle" id="profile-image" alt="profile-image">
+            @elseif(session("user_type")==1)
+            <img src="{{asset('images/profile_image/Dec-2021/resume_dp.jpg')}}" alt="profile_image" class="rounded-circle" id="profile-image">
+            @else
+                <img src="{{asset('images/profile_image'.'/'.session()->get('image'))}}" alt="profile_image" class="rounded-circle" id="profile-image">
+            @endif
             <nav class="navbar">
                 <ul class="navbar-nav">
                     @if(!session("login_id"))
-                    <li class="nav-item"><a href="/home" class="nav-link active">Home</a></li>
-                    @else
-                    <li class="nav-item"><a href="/dashboard" class="nav-link active">Dashboard</a></li>
+                        <li class="nav-item"><a href="{{route('home')}}" class="nav-link active">Home</a></li>
+                    @elseif(session("login_id") && (session("user_type")==1))
+                        <h6>{{session()->get('name')}}</h6>
+                        <li class="nav-item"><a href="{{route('Admin.dashboard')}}" class="nav-link active">Dashboard</a></li>
+                    @elseif(session("login_id") && (session("user_type")==0))
+                        <h6>{{session()->get('name')}}</h6>
+                        <li class="nav-item"><a href="{{route('User.dashboard')}}" class="nav-link active">Dashboard</a></li>
                     @endif
-                    <li class="nav-item"><a class="nav-link">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link">Contact Us</a></li>
                     @if(!session("login_id"))
-                    <li class="nav-item"><a href="/register" class="nav-link">Register</a></li>
-                    <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="{{route('register')}}" class="nav-link">Register</a></li>
+                    <li class="nav-item"><a href="{{route('login')}}" class="nav-link">Login</a></li>
                     @else
                     <li class="nav-item"><a href="/profile" class="nav-link">profile</a></li>
                     <li class="nav-item"><a href="/change_password" class="nav-link">Password</a></li>

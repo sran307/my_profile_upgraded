@@ -18,15 +18,15 @@ Home
                 </div>
                 <div class="col-lg-6 col-md-6 home-buttons">
                     <p>already a user</p>
-                    <a href="/login"><button type="button" class="special-button special">Login Here</button></a>
+                    <a href="{{route('login')}}"><button type="button" class="special-button special">Login Here</button></a>
                 </div>
             </div>
         </div>
         <div class="container mt-5">
-            @if(session()->has("success_message"))
-            <div class="alert alert-success">
-                {{session()->get("success_message")}}
-            </div>
+            @if(session()->has("message"))
+            <p class="alert {{session()->get('alert-class')}}">
+                {{session()->get("message")}}
+            </p>
             @endif
         </div>
     </section>

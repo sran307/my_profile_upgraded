@@ -93,4 +93,92 @@ class RegisterController extends Controller
         }
         
     }
+    public function login_form(Request $request)
+    {
+        $validator=Validator::make($request->all(),[
+            "email" => "required | email",
+            "password"  => "required"
+        ])->validate();
+        $email=$request["email"];
+        $user_password = md5($request["password"]);
+        $user1=User::where("email", $email)->get();
+        $user2=User::where("user_id", $email)->get();
+        if(count($user1)>0 || count($user2)>0)
+        {
+            if(count($user1)>0)
+            {
+                foreach($user1 as $value)
+                {
+                    $first_name=$value->first_name;
+                    $last_name=$value->last_name;
+                    $user_type=$value->user_type;
+                    $login_id=$value->id;
+                    $password=$value->password;
+                    $image=$value->image;
+                }
+                if($user_password==$password)
+                {
+                    session()->put([
+                        "login_id"=>$login_id, 
+                        "name"=>$first_name.$last_name, 
+                        "user_type"=>$user_type,
+                        "image"=>$image
+                    ]);
+                    return redirect()->back()->with([
+                        Session::flash("message", "login successfull"),
+                        Session::flash("alert-class", "alert-success")
+                    ]);
+                }
+                else
+                {
+                    return redirect()->back()->with([
+                        Session::flash("message", "wrong password"),
+                        Session::flash("alert-class", "alert-danger")
+                    ]);
+
+                }
+                
+            }
+            elseif(count($user2)>0)
+            {
+                foreach($user2 as $value)
+                {
+                    $first_name=$value->first_name;
+                    $last_name=$value->last_name;
+                    $user_type=$value->user_type;
+                    $password=$value->password;
+                    $image=$value->image;
+                }
+                if($user_password==$password)
+                {
+                    session()->put([
+                        "login_id"=>$login_id, 
+                        "name"=>$first_name.$last_name, 
+                        "user_type"=>$user_type,
+                        "image" => $image
+                    ]);
+                    return redirect()->route("dashboard")->with([
+                        Session::flash("message", "login successful"),
+                        Session::flash("alert-class", "alert-danger")
+                    ]);
+
+                }
+                else
+                {
+                    return redirect()->back()->with([
+                        Session::flash("message", "wrong password"),
+                        Session::flash("alert-class", "alert-danger")
+                    ]);
+
+                }
+            }
+        }
+        else
+        {
+            return redirect()->back()->with([
+                Session::flash("message", "wrong user id or email"),
+                Session::flash("alert-class", "alert-danger")
+            ]);
+        }
+    }
 }
